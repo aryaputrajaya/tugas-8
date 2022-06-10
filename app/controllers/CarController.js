@@ -1,6 +1,6 @@
 const { Op } = require('sequelize')
 const ApplicationController = require('./ApplicationController')
-const CarAlreadyRentedError = require('../errors')
+const { CarAlreadyRentedError } = require('../errors')
 
 class CarController extends ApplicationController {
   constructor ({ carModel, userCarModel, dayjs }) {
@@ -11,14 +11,11 @@ class CarController extends ApplicationController {
   }
 
   handleListCars = async (req, res) => {
-    // const offset = this.getOffsetFromRequest(req)
-    // const limit = req.query.pageSize
+    // const offset = this.getOffsetFromRequest(req);
+    // const limit = req.query.pageSize;
     const query = this.getListQueryFromRequest(req)
     const cars = await this.carModel.findAll(query)
-    const carCount = await this.carModel.count({
-      where: query.where,
-      include: query.include
-    })
+    const carCount = await this.carModel.count({ where: query.where, include: query.include })
     const pagination = this.buildPaginationObject(req, carCount)
 
     res.status(200).json({
@@ -37,7 +34,12 @@ class CarController extends ApplicationController {
 
   handleCreateCar = async (req, res) => {
     try {
-      const { name, price, size, image } = req.body
+      const {
+        name,
+        price,
+        size,
+        image
+      } = req.body
 
       const car = await this.carModel.create({
         name,
@@ -98,7 +100,12 @@ class CarController extends ApplicationController {
 
   handleUpdateCar = async (req, res) => {
     try {
-      const { name, price, size, image } = req.body
+      const {
+        name,
+        price,
+        size,
+        image
+      } = req.body
 
       const car = this.getCarFromRequest(req)
 
@@ -122,7 +129,7 @@ class CarController extends ApplicationController {
   }
 
   handleDeleteCar = async (req, res) => {
-    await this.carModel.destroy(req.params.id)
+    // const car = await this.carModel.destroy(req.params.id)
     res.status(204).end()
   }
 

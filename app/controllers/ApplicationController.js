@@ -2,7 +2,7 @@ const { NotFoundError } = require('../errors')
 
 class ApplicationController {
   handleGetRoot = (req, res) => {
-    res.status(200).json({
+    this.test = res.status(200).json({
       status: 'OK',
       message: 'BCR API is up and running!'
     })
@@ -11,7 +11,7 @@ class ApplicationController {
   handleNotFound = (req, res) => {
     const err = new NotFoundError(req.method, req.url)
 
-    res.status(404).json({
+    this.test2 = res.status(404).json({
       error: {
         name: err.name,
         message: err.message,
@@ -20,8 +20,8 @@ class ApplicationController {
     })
   }
 
-  handleError = (err, req, res, next) => {
-    res.status(500).json({
+  handleError = (err, req, res) => {
+    this.test3 = res.status(500).json({
       error: {
         name: err.name,
         message: err.message,
@@ -33,18 +33,20 @@ class ApplicationController {
   getOffsetFromRequest (req) {
     const { page = 1, pageSize = 10 } = req.query
     const offset = (page - 1) * pageSize
-    return offset
+    this.test4 = offset
+    return this.test4
   }
 
   buildPaginationObject (req, count) {
     const { page = 1, pageSize = 10 } = req.query
     const pageCount = Math.ceil(count / pageSize)
-    return {
+    this.test5 = {
       page,
       pageCount,
       pageSize,
       count
     }
+    return this.test5
   }
 }
 
